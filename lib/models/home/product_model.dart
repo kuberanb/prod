@@ -40,9 +40,9 @@ class Products {
   String? title;
   String? description;
   String? category;
-  double? price;
-  double? discountPercentage;
-  double? rating;
+  dynamic price;
+  dynamic discountPercentage;
+  dynamic rating;
   int? stock;
   List<String>? tags;
   String? brand;
@@ -151,15 +151,11 @@ class Products {
 }
 
 class Dimensions {
-  double? width;
-  double? height;
-  double? depth;
+  dynamic width;
+  dynamic height;
+  dynamic depth;
 
-  Dimensions({
-    this.width,
-    this.height,
-    this.depth,
-  });
+  Dimensions({this.width, this.height, this.depth});
 
   Dimensions.fromJson(Map<String, dynamic> json) {
     width = json['width'];

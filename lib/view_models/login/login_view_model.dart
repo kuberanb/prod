@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/login_model.dart';
-import '../../services/login_service.dart';
+import '../../services/login/login_service.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final LoginService _loginService = LoginService();

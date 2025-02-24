@@ -1,54 +1,60 @@
-import 'dart:async';
-import 'dart:io';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:prod/models/login/user_model.dart';
 import 'package:prod/utils/api_end_points.dart';
-import 'package:prod/views/widgets/snackbar.dart';
+import '../../models/login_model.dart';
 
 class LoginService {
-  static Future<UserModel?> getUsersList(
-    context,
+  final Dio _dio = Dio();
+
+  Future<LoginResponse> login(
+    // LoginModel loginModel
+    String username,
+    String password,
   ) async {
-    final dio = Dio();
-    UserModel? userModel;
+    //  log("login queryparameters : ${loginModel.toJson().toString()}");
+
+    const url = '${ApiEndPoints.kBaseUrl}${ApiEndPoints.login}';
+    log("url : $url");
+    log("username :$username");
+    log("password :$password");
+    log("username length : ${username.length}");
+    log("password : ${password.length}");
+
     try {
-      Response response = await dio
-          .get(
-            '${ApiEndPoints.kBaseUrl}${ApiEndPoints.kAuth}',
-            options: Options(headers: {
-              'Content-Type': 'application/json',
-            }),
-          )
-          .timeout(
-            const Duration(seconds: 30),
-          );
-      print('api response : ${response.data.toString()}');
+      final response = await _dio.post(
+        url,
+        data: {
+          "username": username.trim(),
+
+          //    'emilys',
+          "password": password.trim(),
+          //    'emilyspass',
+        },
+
+        //  loginModel.toJson().toString(),
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      log("login response : $response");
+
       if (response.statusCode == 200) {
-        print('status code 200 triggered');
-        final dynamic data = response.data;
-
-        userModel = UserModel.fromJson(data);
-
-        return userModel;
+        return LoginResponse.fromJson(response.data);
+      } else {
+        final errorData = response.data;
+        return LoginResponse.withError(errorData['message'] ?? 'Login failed');
       }
-    } on SocketException {
-      showSnackBar(context, 'No Internet');
-      print('No Internet');
-      // Navigator.of(context)
-      //     .push(MaterialPageRoute(builder: (context) => const ErrorScreen()));
-    } on TimeoutException {
-      showSnackBar(context, 'Connection Timeout, Refresh the page');
-      print('Connection Timeout, Refresh the page');
-      // Navigator.of(context)
-      //     .push(MaterialPageRoute(builder: (context) => const ErrorScreen()));
+    } on DioException catch (e) {
+      log("exception : $e");
+      return LoginResponse.withError(
+        e.response?.data?['message'] ?? 'An error occurred: ${e.message}',
+      );
     } catch (e) {
-      // Navigator.of(context)
-      //     .push(MaterialPageRoute(builder: (context) => const ErrorScreen()));
-      // showSnackBar(context, 'Some Error Occured');
-
-      print('Some Exception Occured In Api : ${e}');
+      return LoginResponse.withError('An unexpected error occurred: $e');
     }
-    return userModel;
   }
 }

@@ -3,6 +3,7 @@ import 'package:prod/models/home/product_model.dart';
 import 'package:prod/utils/colors.dart';
 import 'package:prod/view_models/home/home_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:prod/views/product_detail/product_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final Map<String, dynamic>? userDetails;
@@ -99,56 +100,66 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
-            child: Image.network(
-              product.thumbnail ?? "",
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetailScreen(product: product),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  product.title ?? "",
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  product.description ?? "",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '\$${product.price?.toStringAsFixed(2)}',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.star, color: Colors.amber, size: 20),
-                        const SizedBox(width: 4),
-                        Text(product.rating.toString()),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+        );
+      },
+      child: Card(
+        margin: const EdgeInsets.only(bottom: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+              child: Image.network(
+                product.thumbnail ?? "",
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    product.title ?? "",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    product.description ?? "",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '\$${product.price?.toStringAsFixed(2)}',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.star, color: Colors.amber, size: 20),
+                          const SizedBox(width: 4),
+                          Text(product.rating.toString()),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

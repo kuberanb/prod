@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prod/view_models/home/home_view_model.dart';
 import 'package:prod/view_models/login/login_view_model.dart';
+import 'package:prod/view_models/product_detail/product_detail_view_model.dart';
 import 'package:provider/provider.dart';
 import 'views/splash/splash_screen.dart';
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => LoginViewModel()),
         ChangeNotifierProvider(create: (context) => HomeViewModel()),
+        ChangeNotifierProvider(create: (context) => ProductDetailViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

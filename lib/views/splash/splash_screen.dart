@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:prod/utils/colors.dart';
 import 'package:prod/views/login/login_screen.dart';
 
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -18,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // ignore: use_build_context_synchronously
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: ((context) => const LoginScreen()),
+        builder: ((context) => LoginScreen()),
       ),
     );
   }
@@ -52,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   'Prod',
                   style: TextStyle(
                     color: kWhiteColor,
-                    fontSize: 0.04 * screenHeight, 
+                    fontSize: 0.04 * screenHeight,
                     letterSpacing: 0.02 * screenWidth,
                     fontWeight: FontWeight.bold,
                   ),

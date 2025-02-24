@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:prod/views/splash/splash_screen.dart';
+import 'package:prod/view_models/login/login_view_model.dart';
+import 'package:provider/provider.dart';
+import 'views/splash/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,12 +13,27 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Prod',
-      theme: ThemeData(
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => LoginViewModel()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Prod',
+        theme: ThemeData(
+          useMaterial3: true,
+          brightness: Brightness.dark,
+          colorScheme: const ColorScheme.dark(
+            primary: Colors.black,
+            background: Colors.black,
+            surface: Colors.black,
+            onPrimary: Colors.white,
+            onBackground: Colors.white,
+            onSurface: Colors.white,
+          ),
+        ),
+        home: const SplashScreen(),
       ),
-      home: const SplashScreen(),
     );
   }
 }
